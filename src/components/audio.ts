@@ -9,7 +9,7 @@ export async function getAudio(camera: THREE.Camera) {
 
     const audioLoader = new THREE.AudioLoader();
     const audioPromise = new Promise((resolve, reject) => {
-        audioLoader.load('src/assets/winners.mp3', function (buffer) {
+        audioLoader.load('public/winners.mp3', function (buffer) {
             normalSound.setBuffer(buffer);
 
             const ctx = new OfflineAudioContext(1, buffer.length, buffer.sampleRate);
