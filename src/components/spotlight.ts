@@ -30,7 +30,7 @@ export const getSpotLight = async ({ scene, position, modelPosition, modelRotati
             model.scale.set(0.5, 0.5, 0.5);
             model.position.set(modelPosition.x, modelPosition.y, modelPosition.z);
             model.rotation.set(modelRotation.x, modelRotation.y, modelRotation.z);
-            model.receiveShadow = true;
+            // model.receiveShadow = true;
 
             resolve([light, model]);
         }, undefined, reject);

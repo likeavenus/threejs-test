@@ -5,8 +5,8 @@ export const getPlane = (): THREE.Mesh => {
     const color = new THREE.Color('rgb(255, 255, 255)');
     const material: THREE.Material = new THREE.MeshStandardMaterial({ color: color, side: THREE.DoubleSide });
     const plane = new THREE.Mesh(geometry, material);
-    plane.rotation.x = 1.57;
+    plane.rotation.x = Math.PI * 1.5;
     plane.position.y = 1;
-
+    plane.receiveShadow = true;
     return plane;
 };

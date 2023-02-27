@@ -15,7 +15,7 @@ export const SPOTLIGHT1_OPTIONS = {
         y: Math.PI * 1.5,
         z: 0,
     },
-    color: 'rgb(155,38,182)'
+    color: 'rgb(99, 20, 118);'
 };
 
 export const SPOTLIGHT2_OPTIONS = {

@@ -60,7 +60,7 @@ scene.add(ambientLight);
 
       if (currentTime >= songData[i].time) {
         intensity = 1.2;
-        spotLight_1.intensity = 1.5;
+        spotLight_1.intensity = 1.1;
         if (songData[i + 1]) {
           i++;
         }
@@ -74,7 +74,7 @@ scene.add(ambientLight);
       }
 
       if (currentTime >= songData2[k].time) {
-        spotLight_2.intensity = 1.8;
+        spotLight_2.intensity = 2;
         if (songData2[k + 1]) {
           k++;
         }
