@@ -22,7 +22,6 @@ export const getSpotLight = async ({ scene, position, modelPosition, modelRotati
     light.position.set(x, y, z);
     light.castShadow = true;
 
-
     const loader = new TDSLoader();
     const spotLightPromise = new Promise<[THREE.SpotLight, THREE.Group]>((resolve, reject) => {
         loader.load('src/assets/spotlight.3DS', (model) => {
@@ -37,7 +36,7 @@ export const getSpotLight = async ({ scene, position, modelPosition, modelRotati
         }, undefined, reject);
     });
     const [spotLight, model] = await spotLightPromise as [THREE.SpotLight, THREE.Group];
-    spotLight.intensity = 1;
+    spotLight.intensity = 0;
     scene.add(spotLight);
     scene.add(model);
 

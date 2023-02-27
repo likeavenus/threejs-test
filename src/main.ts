@@ -6,14 +6,12 @@ import { getSpotLight } from './components/spotlight';
 import { getAudio } from './components/audio';
 import { SPOTLIGHT1_OPTIONS, SPOTLIGHT2_OPTIONS, SPOTLIGHT3_OPTIONS } from './constants';
 import { getHuman } from './components/human';
-import { getClouds } from './components/clouds';
+import { getSongData } from './utils/getSongData';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // добавляем модель человека
 getHuman(scene);
-// добавляем туман
-getClouds(scene);
 
 camera.position.set(0, 50, 80);
 const gridHelper = new THREE.GridHelper(200, 50);
@@ -34,7 +32,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const orbitControls = getControls(camera, renderer);
 
-const ambientLight = new THREE.AmbientLight('rgb(0, 1, 255)', 0.1);
+const ambientLight = new THREE.AmbientLight('rgb(50, 1, 205)', 0.2);
 scene.add(ambientLight);
 
 
@@ -45,74 +43,50 @@ scene.add(ambientLight);
   const [spotLight_2] = await getSpotLight({ scene, ...SPOTLIGHT2_OPTIONS });
   const [spotLight_3] = await getSpotLight({ scene, ...SPOTLIGHT3_OPTIONS });
 
-  // примерный алгоритм получения звука бочки и прочих звуков
-  interface ISongData {
-    time: number;
-    data: number;
-  }
-  const songData: ISongData[] = [];
-  const songData2: ISongData[] = [];
-  const songData3: ISongData[] = [];
   const data = filteredSound.buffer?.getChannelData(0) as Float32Array;
-
-  for (let i = 0; i < data!.length; i++) {
-    if (data![i] > 0.8 && data![i]) {
-      const time = i / filteredSound.buffer!.sampleRate;
-      const previousTime = (songData.length ? songData.at(-1)?.time : 0) as number;
-      if (time - previousTime > 0.4) {
-        songData.push({
-          data: data![i],
-          time,
-        })
-      }
-    }
-    if (data[i] > 0.73 && data[i] <= 0.8) {
-      const time = i / filteredSound.buffer!.sampleRate;
-      const previousTime = (songData2.length ? songData2.at(-1)?.time : 0) as number;
-      if (time - previousTime > 0.4) {
-        songData2.push({
-          data: data![i],
-          time,
-        })
-      }
-    }
-    if (data[i] >= 0.5 && data[i] < 0.6) {
-      const time = i / filteredSound.buffer!.sampleRate;
-      const previousTime = (songData3.length ? songData3.at(-1)?.time : 0) as number;
-      if (time - previousTime > 0.4) {
-        songData3.push({
-          data: data![i],
-          time,
-        })
-      }
-    }
-  }
+  const [songData, songData2, songData3] = getSongData(filteredSound, data);
 
   let i = 0;
   let k = 0;
   let j = 0;
 
+  let intensity = 1.2;
+
   function animate() {
     if (normalSound.isPlaying) {
+      camera.rotation.x += intensity * 0.01;
+
       const currentTime = clock.getElapsedTime();
 
       if (currentTime >= songData[i].time) {
-        spotLight_1.intensity = 2;
-        i++;
+        intensity = 1.2;
+        spotLight_1.intensity = 1.5;
+        if (songData[i + 1]) {
+          i++;
+        }
       } else {
-        spotLight_1.intensity = 0;
+        if (intensity >= 0) {
+          intensity -= 0.01;
+        } else {
+          intensity = 1.2;
+        }
+        spotLight_1.intensity = intensity;
       }
 
       if (currentTime >= songData2[k].time) {
-        spotLight_2.intensity = 1.4;
-        k++;
+        spotLight_2.intensity = 1.8;
+        if (songData2[k + 1]) {
+          k++;
+        }
       } else {
         spotLight_2.intensity = 0;
       }
 
       if (currentTime >= songData3[j].time) {
         spotLight_3.intensity = 1.5;
-        j++;
+        if (songData3[j + 1]) {
+          j++;
+        }
       } else {
         spotLight_3.intensity = 0;
       }

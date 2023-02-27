@@ -20,9 +20,10 @@ export async function getAudio(camera: THREE.Camera) {
             filter.type = "bandpass";
             filter.frequency.value = 100;
             filter.Q.value = 1;
+            filter.gain.value = 100;
 
             const filter2 = ctx.createBiquadFilter();
-            filter2.type = "peaking";
+            filter2.type = "lowpass";
             filter2.frequency.value = 100;
             filter2.Q.value = 1;
             filter2.gain.value = 15;
