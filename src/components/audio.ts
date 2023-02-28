@@ -39,8 +39,11 @@ export async function getAudio(camera: THREE.Camera) {
     const playButton = document.querySelector('.play-button');
 
     playButton!.addEventListener('click', () => {
-        clock.start();
-        normalSound.play();
+        if (!normalSound.isPlaying) {
+            normalSound.play();
+            clock.start();
+
+        }
     });
 
     return { filteredSound, normalSound, clock };
