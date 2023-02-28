@@ -23,22 +23,6 @@ export async function getAudio(camera: THREE.Camera) {
             filter.gain.value = 1000;
             src.connect(filter);
             filter.connect(ctx.destination);
-            // const filter = ctx.createBiquadFilter();
-            // filter.type = "bandpass";
-            // filter.frequency.value = 100;
-            // filter.Q.value = 1;
-            // filter.gain.value = 100;
-
-            // const filter2 = ctx.createBiquadFilter();
-            // filter2.type = "lowpass";
-            // filter2.frequency.value = 100;
-            // filter2.Q.value = 1;
-            // filter2.gain.value = 15;
-
-
-            // src.connect(filter2);
-            // filter2.connect(filter);
-            // filter.connect(ctx.destination);
             filteredSound.setBuffer(buffer);
 
             src.start(0);

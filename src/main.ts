@@ -13,6 +13,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // добавляем модель человека
 getHuman(scene);
+
 scene.fog = new THREE.FogExp2('rgb(255,255,255)', 0.001);
 
 const volumetricSpotlight_1 = getVolumetricSpotLight({ ...VOLUMETRIC_SPOTLIGHT1 });
