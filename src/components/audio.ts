@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import winners from './assets/winners.mp3';
 
 export async function getAudio(camera: THREE.Camera) {
     const listener = new THREE.AudioListener();
@@ -9,7 +10,7 @@ export async function getAudio(camera: THREE.Camera) {
 
     const audioLoader = new THREE.AudioLoader();
     const audioPromise = new Promise((resolve, reject) => {
-        audioLoader.load('/winners.mp3', function (buffer) {
+        audioLoader.load(winners, function (buffer) {
             normalSound.setBuffer(buffer);
 
             const ctx = new OfflineAudioContext(1, buffer.length, buffer.sampleRate);

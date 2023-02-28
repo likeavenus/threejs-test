@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { TDSLoader } from 'three/examples/jsm/loaders/TDSLoader';
+import spotlightModel from './assets/spotlight.3DS';
 
 type TSpotLightPosition = {
     x: number,
@@ -24,7 +25,7 @@ export const getSpotLight = async ({ scene, position, modelPosition, modelRotati
 
     const loader = new TDSLoader();
     const spotLightPromise = new Promise<[THREE.SpotLight, THREE.Group]>((resolve, reject) => {
-        loader.load('/spotlight.3DS', (model) => {
+        loader.load(spotlightModel, (model) => {
             model.traverse((child) => {
                 if ((child as THREE.Mesh).isMesh) {
                     child.castShadow = true;
