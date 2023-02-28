@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
     assetsInclude: ['**/*.gltf', '**/*.mp3', '**/*.png'],
     build: {
-        outDir: 'docs'
+        outDir: 'dist'
     },
     base: 'https://github.com/likeavenus/threejs-test',
 })
