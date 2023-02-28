@@ -81,6 +81,8 @@ button {
 }
 
 .buttons-box {
+  pointer-events: none;
+  opacity: 0;
   position: absolute;
   z-index: 20;
   left: 30px;
@@ -88,6 +90,12 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 16px;
+  transition: all .25s ease;
+}
+
+.buttons-box.active {
+  pointer-events: auto;
+  opacity: 1;
 }
 
 button:hover {
@@ -123,7 +131,7 @@ canvas {
 .preloader {
   pointer-events: none;
   opacity: 0;
-  transition: all .5s ease;
+  transition: all .25s ease;
   position: absolute;
   left: 50%;
   top: 50%;

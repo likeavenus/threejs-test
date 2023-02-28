@@ -3,15 +3,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import humanModel from './assets/human/human.gltf';
 
 export const getHuman = (scene: THREE.Scene) => {
-    const loadingManager = new THREE.LoadingManager();
-    const preloaderElem = document.querySelector('.preloader');
-    loadingManager.onStart = () => {
-        preloaderElem?.classList.add('active');
-    };
-    loadingManager.onLoad = () => {
-        preloaderElem?.classList.remove('active');
-    }
-    const loader = new GLTFLoader(loadingManager);
+    // const loadingManager = new THREE.LoadingManager();
+    // const preloaderElem = document.querySelector('.preloader');
+    // loadingManager.onStart = () => {
+    //     preloaderElem?.classList.add('active');
+    // };
+    // loadingManager.onLoad = () => {
+    //     preloaderElem?.classList.remove('active');
+    // }
+    const loader = new GLTFLoader();
     loader.load(humanModel, (gltf) => {
         gltf.scene.position.y = 1;
         gltf.scene.traverse(function (object) {

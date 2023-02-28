@@ -14,6 +14,10 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 // добавляем модель человека
 getHuman(scene);
 
+const preloaderElem = document.querySelector('.preloader');
+const buttonsBox = document.querySelector('.buttons-box');
+
+
 scene.fog = new THREE.FogExp2('rgb(255,255,255)', 0.001);
 
 const volumetricSpotlight_1 = getVolumetricSpotLight({ ...VOLUMETRIC_SPOTLIGHT1 });
@@ -45,16 +49,6 @@ const orbitControls = getControls(camera, renderer);
 const ambientLight = new THREE.AmbientLight('rgb(50, 1, 205)', 0.2);
 scene.add(ambientLight);
 
-// const cylinderGeometry = new THREE.CylinderGeometry(0.1, 2, 5);
-// const cylinderMaterial = new THREE.MeshStandardMaterial({
-//   color: '#FFFFFF',
-// });
-// const mesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-// mesh.position.set(-50, 30, 0);
-// mesh.scale.set(10, 10, 10)
-// scene.add(mesh);
-
-
 (async () => {
   const { filteredSound, normalSound, clock } = await getAudio(camera);
   // добавляем 3 прожектора на сцену
@@ -62,6 +56,7 @@ scene.add(ambientLight);
   const [spotLight_2] = await getSpotLight({ scene, ...SPOTLIGHT2_OPTIONS });
   const [spotLight_3] = await getSpotLight({ scene, ...SPOTLIGHT3_OPTIONS });
 
+  // смотрим в отфильрованный буфер с битами
   const data = filteredSound.buffer?.getChannelData(0) as Float32Array;
   const [songData, songData2, songData3] = getSongData(filteredSound, data);
 
@@ -69,10 +64,13 @@ scene.add(ambientLight);
   let k = 0;
   let j = 0;
 
+  preloaderElem?.classList.remove('active');
+  buttonsBox?.classList.add('active');
+
   function animate() {
     if (normalSound.isPlaying) {
       const currentTime = clock.getElapsedTime();
-
+      // если текущее время больше или равно времени когда должен случиться бит - запускаем реакцию света на бит
       if (currentTime >= songData[i].time) {
         spotLight_1.intensity = 2;
         if (songData[i + 1]) {
@@ -81,7 +79,7 @@ scene.add(ambientLight);
       } else {
         spotLight_1.intensity = 0;
       }
-
+      // тоже самое, только со вторым светом
       if (currentTime >= songData2[k].time) {
         spotLight_2.intensity = 2;
         if (songData2[k + 1]) {
@@ -100,8 +98,6 @@ scene.add(ambientLight);
         spotLight_3.intensity = 0;
       }
     }
-
-    // if (normalSound.isEn)
 
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
