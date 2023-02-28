@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 export const getHuman = (scene: THREE.Scene) => {
     const loader = new GLTFLoader();
-    loader.load('public/human/human.gltf', (gltf) => {
+    loader.load('/human/human.gltf', (gltf) => {
         gltf.scene.position.y = 1;
         gltf.scene.traverse(function (object) {
             if ((object as THREE.Mesh).isMesh) {

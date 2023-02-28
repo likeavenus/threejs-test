@@ -24,13 +24,17 @@ export const getSpotLight = async ({ scene, position, modelPosition, modelRotati
 
     const loader = new TDSLoader();
     const spotLightPromise = new Promise<[THREE.SpotLight, THREE.Group]>((resolve, reject) => {
-        loader.load('public/spotlight.3DS', (model) => {
+        loader.load('/spotlight.3DS', (model) => {
+            model.traverse((child) => {
+                if ((child as THREE.Mesh).isMesh) {
+                    child.castShadow = true;
+                }
+            })
             model.rotation.order = "YXZ";
             model.castShadow = true;
             model.scale.set(0.5, 0.5, 0.5);
             model.position.set(modelPosition.x, modelPosition.y, modelPosition.z);
             model.rotation.set(modelRotation.x, modelRotation.y, modelRotation.z);
-
             resolve([light, model]);
         }, undefined, reject);
     });

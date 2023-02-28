@@ -4,14 +4,23 @@ import { getPlane } from './components/plane';
 import { getControls } from './components/controls';
 import { getSpotLight } from './components/spotlight';
 import { getAudio } from './components/audio';
-import { SPOTLIGHT1_OPTIONS, SPOTLIGHT2_OPTIONS, SPOTLIGHT3_OPTIONS } from './constants';
+import { SPOTLIGHT1_OPTIONS, SPOTLIGHT2_OPTIONS, SPOTLIGHT3_OPTIONS, VOLUMETRIC_SPOTLIGHT1, VOLUMETRIC_SPOTLIGHT2, VOLUMETRIC_SPOTLIGHT3 } from './constants';
 import { getHuman } from './components/human';
 import { getSongData } from './utils/getSongData';
+import { getVolumetricSpotLight } from './components/volumetricSpotlight';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // добавляем модель человека
 getHuman(scene);
+scene.fog = new THREE.FogExp2('rgb(255,255,255)', 0.001);
+
+const volumetricSpotlight_1 = getVolumetricSpotLight({ ...VOLUMETRIC_SPOTLIGHT1 });
+const volumetricSpotlight_2 = getVolumetricSpotLight({ ...VOLUMETRIC_SPOTLIGHT2 });
+const volumetricSpotlight_3 = getVolumetricSpotLight({ ...VOLUMETRIC_SPOTLIGHT3 });
+
+
+scene.add(volumetricSpotlight_1, volumetricSpotlight_2, volumetricSpotlight_3);
 
 camera.position.set(0, 50, 80);
 const gridHelper = new THREE.GridHelper(200, 50);
@@ -35,6 +44,15 @@ const orbitControls = getControls(camera, renderer);
 const ambientLight = new THREE.AmbientLight('rgb(50, 1, 205)', 0.2);
 scene.add(ambientLight);
 
+// const cylinderGeometry = new THREE.CylinderGeometry(0.1, 2, 5);
+// const cylinderMaterial = new THREE.MeshStandardMaterial({
+//   color: '#FFFFFF',
+// });
+// const mesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+// mesh.position.set(-50, 30, 0);
+// mesh.scale.set(10, 10, 10)
+// scene.add(mesh);
+
 
 (async () => {
   const { filteredSound, normalSound, clock } = await getAudio(camera);
@@ -50,27 +68,17 @@ scene.add(ambientLight);
   let k = 0;
   let j = 0;
 
-  let intensity = 1.2;
-
   function animate() {
     if (normalSound.isPlaying) {
-      camera.rotation.x += intensity * 0.01;
-
       const currentTime = clock.getElapsedTime();
 
       if (currentTime >= songData[i].time) {
-        intensity = 1.2;
-        spotLight_1.intensity = 1.1;
+        spotLight_1.intensity = 2;
         if (songData[i + 1]) {
           i++;
         }
       } else {
-        if (intensity >= 0) {
-          intensity -= 0.01;
-        } else {
-          intensity = 1.2;
-        }
-        spotLight_1.intensity = intensity;
+        spotLight_1.intensity = 0;
       }
 
       if (currentTime >= songData2[k].time) {
@@ -91,6 +99,8 @@ scene.add(ambientLight);
         spotLight_3.intensity = 0;
       }
     }
+
+    // if (normalSound.isEn)
 
     requestAnimationFrame(animate);
     renderer.render(scene, camera);

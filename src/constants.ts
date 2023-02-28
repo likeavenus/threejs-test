@@ -55,5 +55,37 @@ export const SPOTLIGHT3_OPTIONS = {
         y: Math.PI * 2,
         z: Math.PI * 2,
     },
-    color: 'rgb(10,50,200)'
+    color: 'cyan'
+};
+
+export type TPosition = {
+    x: number;
+    y: number;
+    z: number;
+}
+export const VOLUMETRIC_SPOTLIGHT1 = {
+    position: {
+        x: 60,
+        y: 35,
+        z: 45,
+    },
+    color: 'rgb(99, 20, 118)',
+};
+
+export const VOLUMETRIC_SPOTLIGHT2 = {
+    position: {
+        x: -60,
+        y: 37,
+        z: 45,
+    },
+    color: 'rgb(10,200,10)',
+};
+
+export const VOLUMETRIC_SPOTLIGHT3 = {
+    position: {
+        x: 0,
+        y: 30,
+        z: -55
+    },
+    color: 'cyan',
 };

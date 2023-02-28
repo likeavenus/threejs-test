@@ -12,7 +12,7 @@ export const getSongData = (filteredSound: THREE.Audio, channelData: Float32Arra
     const songData3: ISongDataProps[] = [];
 
     for (let i = 0; i < data.length; ++i) {
-        if (data[i] >= 0.60 && data[i] && data[i] <= 1.2) {
+        if (data[i] > 0.87) {
             const time = i / filteredSound.buffer!.sampleRate;
             const previousTime = (songData.length ? songData.at(-1)?.time : 0) as number;
             if (time - previousTime > 0.4) {
@@ -22,7 +22,7 @@ export const getSongData = (filteredSound: THREE.Audio, channelData: Float32Arra
                 })
             }
         }
-        if (data[i] > 0.55 && data[i] <= 0.65) {
+        if (data[i] > 0.8 && data[i] <= 0.85) {
             const time = i / filteredSound.buffer!.sampleRate;
             const previousTime = (songData2.length ? songData2.at(-1)?.time : 0) as number;
             if (time - previousTime > 0.4) {
@@ -32,7 +32,7 @@ export const getSongData = (filteredSound: THREE.Audio, channelData: Float32Arra
                 })
             }
         }
-        if (data[i] >= 0.5 && data[i] < 0.55) {
+        if (data[i] >= 0.7 && data[i] < 0.8) {
             const time = i / filteredSound.buffer!.sampleRate;
             const previousTime = (songData3.length ? songData3.at(-1)?.time : 0) as number;
             if (time - previousTime > 0.4) {
