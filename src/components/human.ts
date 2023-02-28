@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import humanModel from './assets/human/human.gltf';
+import humanModel from '/human/human.gltf';
 
 export const getHuman = (scene: THREE.Scene) => {
     const loader = new GLTFLoader();

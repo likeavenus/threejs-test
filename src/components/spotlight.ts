@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { TDSLoader } from 'three/examples/jsm/loaders/TDSLoader';
-import spotlightModel from './assets/spotlight.3DS';
+import spotlightModel from '/spotlight.3DS';
 
 type TSpotLightPosition = {
     x: number,

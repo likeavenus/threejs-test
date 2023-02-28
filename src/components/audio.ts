@@ -42,7 +42,6 @@ export async function getAudio(camera: THREE.Camera) {
         if (!normalSound.isPlaying) {
             normalSound.play();
             clock.start();
-
         }
     });
 
